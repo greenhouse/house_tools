@@ -1,4 +1,5 @@
 __filename = 'print_helpers.py'
+import sys
 
 def readCliArgs():
     funcname = f'<{__filename}> readCliArgs'
