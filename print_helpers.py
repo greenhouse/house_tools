@@ -1,7 +1,7 @@
-filename = 'print_helpers.py'
+__filename = 'print_helpers.py'
 
 def readCliArgs():
-    funcname = f'<{filename}> readCliArgs'
+    funcname = f'<{__filename}> readCliArgs'
     #print(f'\n{funcname} _ ENTER\n')
     print(f'\nReading CLI args...')
     argCnt = len(sys.argv)
