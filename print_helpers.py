@@ -1,4 +1,16 @@
+filename = 'print_helpers.py'
 
+def readCliArgs():
+    funcname = f'<{filename}> readCliArgs'
+    #print(f'\n{funcname} _ ENTER\n')
+    print(f'\nReading CLI args...')
+    argCnt = len(sys.argv)
+    print(' Number of arguments: %i' % argCnt)
+    print(' Argument List: %s' % str(sys.argv))
+    for idx, val in enumerate(sys.argv):
+        print(' Argv[%i]: %s' % (idx,str(sys.argv[idx])))
+    print(f'DONE reading CLI args...')
+    #print(f'\n{funcname} _ EXIT\n')
 
 def getPrintListStr(lst=[], strListTitle='list', useEnumerate=True, goIdxPrint=False, goPrint=True):
     strGoIndexPrint = None
