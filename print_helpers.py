@@ -1,5 +1,29 @@
 __filename = 'print_helpers.py'
+cStrDividerExcept = '***************************************************************'
 import sys
+import decimal
+
+##ref: https://stackoverflow.com/a/39165933/2298002
+def truncate(number, digits, bDecReturn=False):
+    decimal.getcontext().rounding = decimal.ROUND_DOWN #default -> 'ROUND_HALF_EVEN'
+    dec = decimal.Decimal(number)
+    decTrunc1 = round(dec, digits+1)
+    decTrunc2 = round(decTrunc1, digits)
+    decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN #default -> 'ROUND_HALF_EVEN'
+
+    if bDecReturn:
+        return decTrunc2
+    return float(decTrunc2)
+
+def printException(e, debugLvl=0):
+    #print type(e)       # the exception instance
+    #print e.args        # arguments stored in .args
+    #print e             # __str__ allows args to be printed directly
+    print('', cStrDividerExcept, f' Exception Caught _ e: {e}', cStrDividerExcept, sep='\n')
+    if debugLvl > 0:
+        print('', cStrDividerExcept, f' Exception Caught _ e.args: {e.args}', cStrDividerExcept, sep='\n')
+    if debugLvl > 1:
+        print('', cStrDividerExcept, f' Exception Caught _ type(e): {type(e)}', cStrDividerExcept, sep='\n')
 
 def readCliArgs():
     funcname = f'<{__filename}> readCliArgs'
