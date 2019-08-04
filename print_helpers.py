@@ -6,7 +6,7 @@ import json
 from flask import Response
 
 def JSONResponse(dict):
-    return Response( json.dumps(dict), mimetype="application/json" )
+    return Response(json.dumps(dict), mimetype="application/json" )
 
 ##ref: https://stackoverflow.com/a/39165933/2298002
 def truncate(number, digits, bDecReturn=False):
