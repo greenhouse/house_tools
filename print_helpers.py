@@ -2,6 +2,11 @@ __filename = 'print_helpers.py'
 cStrDividerExcept = '***************************************************************'
 import sys
 import decimal
+import json
+from flask import Response
+
+def JSONResponse(dict):
+    return Response( json.dumps(dict), mimetype="application/json" )
 
 ##ref: https://stackoverflow.com/a/39165933/2298002
 def truncate(number, digits, bDecReturn=False):
