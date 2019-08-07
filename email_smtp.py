@@ -21,7 +21,7 @@ SES_RECEIVER = sites.gms_post_receiver
 
 def sendEmailTest(test_id=-1, dev_msg='nil'):
     funcname = f'({__filename}) sendEmailTest'
-    receiver = 'greenhouse.eric@gmail.com'
+    receiver = SES_RECEIVER
     sender = SES_ADMIN
     subject = f"server test email [{test_id}]"
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
