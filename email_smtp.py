@@ -7,16 +7,8 @@ from random import randrange
 from datetime import datetime, timedelta
 from flask import render_template
 import smtplib
-#from home.models.EmailQueue import EmailQueue
-#from email.mime.multipart import MIMEMultipart
-#from email.mime.text import MIMEText
-logenter(__filename, f"\n IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=False, tprint=True)
 
-#SES_SERVER = "smtp.zoho.com"
-#SES_PORT = 465
-#SES_FROMADDR = "support@copark.la"
-#SES_LOGIN = "support@copark.la"
-#SES_PASSWORD = "co061116park"
+logenter(__filename, f"\n IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=False, tprint=True)
 
 SES_SERVER = sites.gms_SES_SERVER
 SES_PORT = sites.gms_SES_PORT
@@ -83,38 +75,6 @@ email_re = re.compile(
 def validateEmail(email):
     return None if email == None else email_re.match(email)
 
-
-# Send time in hours - ACCEPTS HTML/TEXT TEMPLATES
-#def queueHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemplate, c={}, send_time=0):
-#    now_time = datetime.now()
-#    nsec = int(send_time) * 60
-#    delta_time = timedelta(seconds=nsec)
-#    new_send_time = now_time + delta_time
-#
-#    new_email = EmailQueue(created=datetime.now(), status=0, type=0)
-#    new_email.sender_email = sender_email.encode('utf-8')
-#    new_email.recipient_email = recipient_email.encode('utf-8')
-#    new_email.subject = subject.encode('utf-8')
-#    
-#    c['host_url'] = 'http://atthepool.com/'
-#    if len(htmlTemplate) > 0 and htmlTemplate[0] == '/':
-#        new_email.html = render_template(htmlTemplate, c=c)
-#    else:
-#        new_email.html = htmlTemplate
-#
-#    if len(textTemplate) > 0 and textTemplate[0] == '/':
-#        new_email.text = render_template(textTemplate, c=c)
-#    else:
-#        new_email.text = textTemplate
-#    
-#    new_email.send_time = new_send_time
-#    db.session.add(new_email)
-#    db.session.commit()
-#
-#    return True
-
-
-
 def getCode(codeLen):
     charSet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     nchars = len(charSet)
@@ -168,8 +128,8 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
 def sendTextEmail(sender_email, recipient_email, subject, text):
     funcname = f'({__filename}) sendTextEmail'
     funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\nBody: {text}\n\n" % ",".join([recipient_email])
-    logenter(funcname, funparams, simpleprint=False, tprint=True)
-
+    #logenter(funcname, funparams, simpleprint=False, tprint=True)
+    loginfo(funcname, 'START -> sendTextEmail', simpleprint=True)
     try:
         msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
         server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
@@ -178,6 +138,7 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         server.login(SES_LOGIN, SES_PASSWORD)
         server.sendmail(sender_email, recipient_email, msg + text)
         server.quit()
+        loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
         return True
 
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
@@ -193,7 +154,7 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
             server.login(SES_LOGIN, SES_PASSWORD)
             server.sendmail(sender_email, recipient_email, msg + text)
             server.quit()
-            xlogger.loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed: {funparams}\n')
+            loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed: {funparams}\n')
             return True
         except Exception as e:
             xlogger.logerror(funcname, f"  email re-send Exception: {e}\n  returning False and continuing callstack\n", f"\n FuncParamsPassed: {funparams}\n")
