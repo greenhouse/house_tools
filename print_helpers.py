@@ -20,7 +20,7 @@ def stripStrWhiteSpaceByLine(strfix):
     print(f'\n{funcname} _ EXIT\n')
     return strfixstrip
 
-##ref: https://stackoverflow.com/a/39165933/2298002
+#ref: https://stackoverflow.com/a/39165933/2298002
 def truncate(number, digits, bDecReturn=False):
     decimal.getcontext().rounding = decimal.ROUND_DOWN #default -> 'ROUND_HALF_EVEN'
     dec = decimal.Decimal(number)
