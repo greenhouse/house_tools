@@ -22,7 +22,7 @@
                 }
          }"
 
-## strip leading & trailing whitespaces from multi-lined string
+### strip leading & trailing whitespaces from multi-lined string
 ### split, strip, join 
     def stripStrWhiteSpaceByLine(strfix):
         example...
@@ -31,7 +31,7 @@
             >>> strnew
             'hello\nworld\nmy friend'
 
-## truncate number to specified decimal digits amount (rounds down)
+### truncate number to specified decimal digits amount (rounds down)
 ### ref: https://stackoverflow.com/a/39165933/2298002
     def truncate(number, digits, bDecReturn=False):
         example.. bDecReturn=False, returns float, else returns 'import decimal'
@@ -40,7 +40,7 @@
             >>> truncate(fVal, iDecPlace, bDecReturn=False)
             0.1234
 
-## support method, neatly print Exception 'e'  
+### support method, neatly print Exception 'e'  
     def printException(e, debugLvl=0):
         example...
             >>> e = Exception 
@@ -51,7 +51,7 @@
             >>> printException(e, debugLvl=2)
             ' Exception Caught _ type(e): {type(e)}'
 
-## read and print cli args from user input
+### read and print cli args from user input
     def readCliArgs():
         example...
          $ python3.7 test.py -a hello -b world
@@ -65,7 +65,7 @@
              Argv[4]: world
              DONE reading CLI args...
 
-## given a list.. creates, prints & returns that list in string format
+### given a list.. creates, prints & returns that list in string format
 ### option to print list indexes
 ### defaults to utilize list comprehention with 'enumerate'
     def getPrintListStr(lst=[], strListTitle='list', useEnumerate=True, goIdxPrint=False, goPrint=True):
@@ -92,7 +92,7 @@
             
 
 
-## given a list of tuples.. creates, prints & returns that list in string format
+### given a list of tuples.. creates, prints & returns that list in string format
 ### option to print list indexes
 ### defaults to utilize list comprehention with 'enumerate'
     def getPrintListStrTuple(lst=[], strListTitle='list', useEnumerate=True, goIdxPrint=False, goPrint=True):
