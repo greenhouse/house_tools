@@ -25,7 +25,7 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
     sender = SES_ADMIN
     subject = f"server test email [{test_id}]"
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
-    sendTextEmail(sender, receiver, subject, body)
+    return sendTextEmail(sender, receiver, subject, body)
 
 def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil'):
     funcname = f'({__filename}) sendEmailTest'
@@ -39,15 +39,15 @@ def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='tit
         strType = 'cand'
     
     subject = f"GMS_post_{strType}_{uname}_{strTime}"
-    body = f"{title}\n\n{strHtml}\n\n_END_\n\n"
-    sendTextEmail(sender, receiver, subject, body)
+    body = f"{title}\n\n{strHtml}\n\n_END_\n"
+    return sendTextEmail(sender, receiver, subject, body)
 
 #=====================================================#
 # legacy misc
 #=====================================================#
 def sendEmailServerErrorDb(sourceFunc, dbquery, dev_msg):
     funcname = f'({__filename}) sendEmailServerErrorDb'
-    receiver = SES_ADMIN
+    receiver = SES_RECEIVER
     sender = SES_ADMIN
     subject = f"server ERROR->DB! [func: {sourceFunc}]"
     body = f"Server database error occurred during...\n\n\n     dbquery: {sourceFunc}\n\n\n within function: {dbquery}\n\n Developer Msg: {dev_msg}\n\n"
@@ -55,9 +55,9 @@ def sendEmailServerErrorDb(sourceFunc, dbquery, dev_msg):
 
 def sendEmailServerException(sourceFunc, e, code_msg):
     funcname = f'({__filename}) sendEmailServerException'
-    receiver = SES_ADMIN
+    receiver = SES_RECEIVER
     sender = SES_ADMIN
-    subject = f"server EXCEPTION! [func: {sourceFunc}]"
+    subject = f"GMS_server_EXCEPTION! [func: {sourceFunc}]"
     body = f"Server exception occurred within function: {sourceFunc}\n\n Python Code Msg: {code_msg}\n\n\n [exception_]: \n{e}\n[_exception]"
     sendTextEmail(sender, receiver, subject, body)
 
@@ -84,7 +84,6 @@ def getCode(codeLen):
         newCode.append(charSet[randrange(0,nchars)])
 
     return "".join(newCode)
-
 
 def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemplate, c={}):
     # Create message container - the correct MIME type is multipart/alternative.
@@ -124,10 +123,9 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
     
     return True
 
-
 def sendTextEmail(sender_email, recipient_email, subject, text):
     funcname = f'({__filename}) sendTextEmail'
-    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}\n\n" % ",".join([recipient_email])
+    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}" % ",".join([recipient_email])
     #logenter(funcname, funparams, simpleprint=False, tprint=True)
     loginfo(funcname, 'START -> sendTextEmail', simpleprint=True)
     try:
@@ -138,13 +136,13 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         server.ehlo()
         server.login(SES_LOGIN, SES_PASSWORD)
         logalert(funcname, 'START -> server.sendmail', simpleprint=False)
-        logalert(funcname, f'msg... \n {msg}\n', simpleprint=False)
+        logalert(funcname, f'msg... \n{msg}\n', simpleprint=False)
         #logalert(funcname, f'text... \n {text}\n', simpleprint=False)
         server.sendmail(sender_email, recipient_email, msg + text)
         logalert(funcname, 'END -> server.sendmail', simpleprint=False)
         server.quit()
         loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
-        return True
+        return True, 'no exception'
 
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
@@ -162,10 +160,12 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
             server.sendmail(sender_email, recipient_email, msg + text)
             server.quit()
             loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed... \n{funparams}\n')
-            return True
+            return True, f'no exception on retry; first e: {e}'
         except Exception as e:
-            logerror(funcname, f"  email re-send Exception... \n{e}\n  returning False and continuing callstack\n", f"\nFuncParamsPassed... \n{funparams}\n")
-            return False
+            strFunParamsRepr = f"\nFuncParamsPassed... repr(funparams)... \n\n{repr(funparams)}\n\n"
+            strFuncParams = strFunParamsRepr + f"\nFuncParamsPassed... \n\n{funparams}\n\n"
+            logerror(funcname, f"  email re-send Exception... \n  {e}\n  returning False and continuing callstack", strFuncParams)
+            return False, f'exception: {e}'
 
 """def queueEmail(sender_email, recipient_email, html, text):
     email_form = EmailQueueForm()
