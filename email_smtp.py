@@ -157,7 +157,7 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
             loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed: {funparams}\n')
             return True
         except Exception as e:
-            xlogger.logerror(funcname, f"  email re-send Exception: {e}\n  returning False and continuing callstack\n", f"\n FuncParamsPassed: {funparams}\n")
+            logerror(funcname, f"  email re-send Exception: {e}\n  returning False and continuing callstack\n", f"\n FuncParamsPassed: {funparams}\n")
             return False
 
 """def queueEmail(sender_email, recipient_email, html, text):
