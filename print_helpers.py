@@ -8,6 +8,18 @@ from flask import Response
 def JSONResponse(dict):
     return Response(json.dumps(dict), mimetype="application/json" )
 
+# split, strip, join
+def stripStrWhiteSpaceByLine(strfix):
+    funcname = f'<{__filename}> stripStrWhiteSpaceByLine'
+    print(f'\n{funcname} _ ENTER\n')
+    lst_strfix = strfix.split('\n')
+    lst_strfix_strip = []
+    for x in lst_strfix:
+        lst_strfix_strip.append(x.strip())
+    strfixstrip = '\n'.join(lst_strfix_strip)
+    print(f'\n{funcname} _ EXIT\n')
+    return strfixstrip
+
 ##ref: https://stackoverflow.com/a/39165933/2298002
 def truncate(number, digits, bDecReturn=False):
     decimal.getcontext().rounding = decimal.ROUND_DOWN #default -> 'ROUND_HALF_EVEN'
