@@ -22,6 +22,13 @@
                 }
          }"
 
+### def randomizeString(strInput):
+    # randomize input string and return
+    example... 
+        >>> mystr = 'hello world my friend'
+        >>> randomizeString(mystr)
+        'l oeriwnl hlefrmyodd '
+
 ### def stripStrWhiteSpaceByLine(strfix):
     # strip leading & trailing whitespaces from multi-lined string
     # split, strip, join 
@@ -30,6 +37,10 @@
         >>> strnew = stripStrWhiteSpaceByLine(strfix)
         >>> strnew
         'hello\nworld\nmy friend'
+
+### def stripStrWhiteSpaceInDict(dictStr):
+    # traverse through dictionary values 
+    # executes 'stripStrWhiteSpaceByLine(strfix)' above
 
 ### def truncate(number, digits, bDecReturn=False):
     # truncate number to specified decimal digits amount (rounds down)
