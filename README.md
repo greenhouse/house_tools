@@ -1,8 +1,8 @@
 # house_tools
-misc utilities for python scripting support
+    misc utilities for python scripting support
 
 # print_helpers.py
-## return json formatted string 
+### return json formatted string 
 ### mimetype="application/json"
     def JSONResponse(dict):
         example...
