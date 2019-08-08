@@ -135,11 +135,9 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         #server.set_debuglevel(1)
         server.ehlo()
         server.login(SES_LOGIN, SES_PASSWORD)
-        logalert(funcname, 'START -> server.sendmail', simpleprint=False)
-        logalert(funcname, f'msg... \n{msg}\n', simpleprint=False)
-        #logalert(funcname, f'text... \n {text}\n', simpleprint=False)
+        logalert(funcname, f'\nHeader... \n{msg}', simpleprint=True)
+        #logalert(funcname, f'\nText... \n{text}', simpleprint=False)
         server.sendmail(sender_email, recipient_email, msg + text)
-        logalert(funcname, 'END -> server.sendmail', simpleprint=False)
         server.quit()
         loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
         return True, 'no exception'
