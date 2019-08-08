@@ -3,21 +3,29 @@ cStrDividerExcept = '***********************************************************
 import sys
 import decimal
 import json
+import random
 from flask import Response
 
 def JSONResponse(dict):
     return Response(json.dumps(dict), mimetype="application/json" )
 
+#ref: https://stackoverflow.com/a/3568748/2298002
+def randomizeString(strInput):
+    print(f'input string: {strInput}')
+    strOutput = ''.join([str(w) for w in random.sample(strInput, len(strInput))])
+    print(f'output string: {strOutput}')
+    return strOutput
+
 # split, strip, join
 def stripStrWhiteSpaceByLine(strfix):
     funcname = f'<{__filename}> stripStrWhiteSpaceByLine'
-    print(f'\n{funcname} _ ENTER\n')
+    print(f'\n{funcname} _ ENTER')
     lst_strfix = strfix.split('\n')
     lst_strfix_strip = []
     for x in lst_strfix:
         lst_strfix_strip.append(x.strip())
     strfixstrip = '\n'.join(lst_strfix_strip)
-    print(f'\n{funcname} _ EXIT\n')
+    print(f'{funcname} _ EXIT', '\n')
     return strfixstrip
 
 #ref: https://stackoverflow.com/a/39165933/2298002
