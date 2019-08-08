@@ -136,7 +136,11 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         #server.set_debuglevel(1)
         server.ehlo()
         server.login(SES_LOGIN, SES_PASSWORD)
+        logalert(funcname, 'START -> server.sendmail', simpleprint=False)
+        logalert(funcname, f'msg: -> \n {msg}\n', simpleprint=False)
+        #logalert(funcname, f'text: -> \n {text}\n', simpleprint=False)
         server.sendmail(sender_email, recipient_email, msg + text)
+        logalert(funcname, 'END -> server.sendmail', simpleprint=False)
         server.quit()
         loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
         return True
@@ -145,11 +149,12 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        logerror(funcname, f"  Exception caught during send email attempt: {e} \n", "\n  attempting to re-send email with 'server.set_debuglevel(1)' enabled\n")
+        iDebugLvl = 2
+        logerror(funcname, f"  Exception caught during send email attempt: {e} \n", "\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
         try:
             msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
             server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
-            server.set_debuglevel(1)
+            server.set_debuglevel(iDebugLvl)
             server.ehlo()
             server.login(SES_LOGIN, SES_PASSWORD)
             server.sendmail(sender_email, recipient_email, msg + text)
