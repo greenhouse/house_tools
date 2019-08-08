@@ -3,8 +3,8 @@
 
 # print_helpers.py
 ### def JSONResponse(dict):
-### return json formatted string 
-### mimetype="application/json"
+    # return json formatted string 
+    # mimetype="application/json"
     example...
     >>> lst = [1, 2, 3, 4]
     >>> dict = {'error':'none', 'payload':{'msg':'hello world', 'msg2':lst}}
@@ -23,9 +23,9 @@
      }"
 
 def stripStrWhiteSpaceByLine(strfix):
-### strip leading & trailing whitespaces from multi-lined string
-### split, strip, join 
-    
+    ### strip leading & trailing whitespaces from multi-lined string
+    ### split, strip, join 
+
         example...
             >>> strfix = '    hello    \n     world     \n     my friend    '
             >>> strnew = stripStrWhiteSpaceByLine(strfix)
