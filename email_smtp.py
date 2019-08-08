@@ -150,7 +150,7 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
         iDebugLvl = 2
-        logerror(funcname, f"  Exception caught during send email attempt: {e} \n", "\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
+        logerror(funcname, f"  Exception caught during send email attempt: {e} \n", f"\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
         try:
             msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
             server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
