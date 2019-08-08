@@ -127,11 +127,11 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
 
 def sendTextEmail(sender_email, recipient_email, subject, text):
     funcname = f'({__filename}) sendTextEmail'
-    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\nBody: {text}\n\n" % ",".join([recipient_email])
+    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}\n\n" % ",".join([recipient_email])
     #logenter(funcname, funparams, simpleprint=False, tprint=True)
     loginfo(funcname, 'START -> sendTextEmail', simpleprint=True)
     try:
-        msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
+        msg = f"\nFrom: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
         server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
         #server.set_debuglevel(1)
         server.ehlo()
@@ -152,17 +152,17 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         iDebugLvl = 2
         logerror(funcname, f"  Exception caught during send email attempt: {e} \n", f"\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
         try:
-            msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
+            msg = f"\nFrom: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
             server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
             server.set_debuglevel(iDebugLvl)
             server.ehlo()
             server.login(SES_LOGIN, SES_PASSWORD)
             server.sendmail(sender_email, recipient_email, msg + text)
             server.quit()
-            loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed: {funparams}\n')
+            loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed... \n{funparams}\n')
             return True
         except Exception as e:
-            logerror(funcname, f"  email re-send Exception: {e}\n  returning False and continuing callstack\n", f"\n FuncParamsPassed: {funparams}\n")
+            logerror(funcname, f"  email re-send Exception... \n{e}\n  returning False and continuing callstack\n", f"\nFuncParamsPassed... \n{funparams}\n")
             return False
 
 """def queueEmail(sender_email, recipient_email, html, text):
