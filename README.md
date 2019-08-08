@@ -2,29 +2,30 @@
     misc utilities for python scripting support
 
 # print_helpers.py
+### def JSONResponse(dict):
 ### return json formatted string 
 ### mimetype="application/json"
-    def JSONResponse(dict):
-        example...
-        >>> lst = [1, 2, 3, 4]
-        >>> dict = {'error':'none', 'payload':{'msg':'hello world', 'msg2':lst}}
-        >>> JSONResponse(dict)
-        "{
-            'error':'none', 
-            'payload': {
-                'msg':'hello world', 
-                'msg2': [
-                            1, 
-                            2, 
-                            3, 
-                            4
-                       ]
-                }
-         }"
+    example...
+    >>> lst = [1, 2, 3, 4]
+    >>> dict = {'error':'none', 'payload':{'msg':'hello world', 'msg2':lst}}
+    >>> JSONResponse(dict)
+    "{
+        'error':'none', 
+        'payload': {
+            'msg':'hello world', 
+            'msg2': [
+                        1, 
+                        2, 
+                        3, 
+                        4
+                   ]
+            }
+     }"
 
+def stripStrWhiteSpaceByLine(strfix):
 ### strip leading & trailing whitespaces from multi-lined string
 ### split, strip, join 
-    def stripStrWhiteSpaceByLine(strfix):
+    
         example...
             >>> strfix = '    hello    \n     world     \n     my friend    '
             >>> strnew = stripStrWhiteSpaceByLine(strfix)
