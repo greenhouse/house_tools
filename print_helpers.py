@@ -16,16 +16,26 @@ def randomizeString(strInput):
     print(f'output string: {strOutput}')
     return strOutput
 
+def stripStrWhiteSpaceInDict(dictStr):
+    funcname = f'<{__filename}> stripStrWhiteSpaceInDict'
+    print(f'\n{funcname} _ ENTER')
+    dict_strip = {}
+    for key in dictStr:
+        strfix = str(dictStr[key])
+        dict_strip[key] = stripStrWhiteSpaceByLine(strfix)
+    print(f'{funcname} _ EXIT', '\n')
+    return dict_strip
+
 # split, strip, join
 def stripStrWhiteSpaceByLine(strfix):
     funcname = f'<{__filename}> stripStrWhiteSpaceByLine'
-    print(f'\n{funcname} _ ENTER')
+    #print(f'\n{funcname} _ ENTER')
     lst_strfix = strfix.split('\n')
     lst_strfix_strip = []
     for x in lst_strfix:
         lst_strfix_strip.append(x.strip())
     strfixstrip = '\n'.join(lst_strfix_strip)
-    print(f'{funcname} _ EXIT', '\n')
+    #print(f'{funcname} _ EXIT', '\n')
     return strfixstrip
 
 #ref: https://stackoverflow.com/a/39165933/2298002
