@@ -1,5 +1,6 @@
 __filename = 'print_helpers.py'
 cStrDividerExcept = '***************************************************************'
+cStrDivider = '#================================================================#'
 import sys
 import decimal
 import json
@@ -9,9 +10,13 @@ from flask import Response
 def JSONResponse(dict):
     return Response(json.dumps(dict), mimetype="application/json" )
 
+def printEndAndExit(source_func, exit_code=-1):
+    print('', cStrDivider, f'END _ {source_func} _ sys.exit({exit_code})', cStrDivider, '', sep='\n')
+    sys.exit(exit_code)
+
 #ref: https://stackoverflow.com/a/3568748/2298002
 def randomizeString(strInput):
-    print(f'input string: {strInput}')
+    print(f'input string:  {strInput}')
     strOutput = ''.join([str(w) for w in random.sample(strInput, len(strInput))])
     print(f'output string: {strOutput}')
     return strOutput
