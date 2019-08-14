@@ -26,19 +26,21 @@ usage = ("\n*** General Script Manual ***\n\n"
          " exiting... \n"
          )
 
+def checkPriorityFlagsAndExit():
+    print('', f"Checking for '--help' flag...", sep='\n')
+    for x in range(0, argCnt):
+        argv = sys.argv[x]
+        if argv == flagHelp:
+            print(f"{cStrDivider}", f" argv[{x}]: '{flagHelp}' detected", f"{cStrDivider}", f"{usage}", f"{cStrDivider}\n", sep='\n')
+            printEndAndExit(__filename, exit_code=0)
+    print('', f"Done checking for '--help' flag...", '\n')
+
 readCliArgs()
 argCnt = len(sys.argv)
 if argCnt > 1:
     strInput = None
     try:
-        print('', f"Checking for '--help' flag...", sep='\n')
-        for x in range(0, argCnt):
-            argv = sys.argv[x]
-            if argv == flagHelp:
-                print(f"{cStrDivider}", f" argv[{x}]: '{flagHelp}' detected", f"{cStrDivider}", f"{usage}", f"{cStrDivider}\n", sep='\n')
-                printEndAndExit(__filename, exit_code=0)
-        print('', f"Done checking for '--help' flag...", '\n')
-
+        checkPriorityFlagsAndExit()
         print(f'Checking CLI flags...')
         for x in range(0, argCnt):
             argv = sys.argv[x].lower()
