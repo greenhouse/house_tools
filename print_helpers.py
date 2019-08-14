@@ -1,11 +1,21 @@
 __filename = 'print_helpers.py'
 cStrDividerExcept = '***************************************************************'
 cStrDivider = '#================================================================#'
-import sys
-import decimal
-import json
+print(f'GO {__filename} -> starting IMPORTs')
 import random
 from flask import Response
+import sys, os, traceback
+import decimal
+import json
+
+def getStrJsonPretty(miscJson={}):
+    funcname = f'<{__filename}> strJsonPretty'
+    #print('\n',funcname,' _ ENTER\n')
+    strJsonPrint = json.dumps(miscJson, indent = 4)
+    #strLineD = '\n%s__data__\n%s\n%s__data__\n' % (cStrExtSpace01,str(strJsonPrint),cStrExtSpace01)
+    #strLineD = '%s__data__\n%s' % (cStrExtSpace01,str(strJsonPrint))
+    strLineD = f' __data__\n{strJsonPrint}'
+    return strLineD
 
 def JSONResponse(dict):
     return Response(json.dumps(dict), mimetype="application/json" )
@@ -64,6 +74,13 @@ def printException(e, debugLvl=0):
         print('', cStrDividerExcept, f' Exception Caught _ e.args: {e.args}', cStrDividerExcept, sep='\n')
     if debugLvl > 1:
         print('', cStrDividerExcept, f' Exception Caught _ type(e): {type(e)}', cStrDividerExcept, sep='\n')
+    
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+#    print(traceback.format_exc())
+    strTrace = traceback.format_exc()
+    #print(exc_type, fname, exc_tb.tb_lineno)
+    print('', cStrDividerExcept, f' type: {exc_type}', f' file: {fname}', f' line_no: {exc_tb.tb_lineno}', f' traceback: {strTrace}', cStrDividerExcept, sep='\n')
 
 def readCliArgs():
     funcname = f'<{__filename}> readCliArgs'
