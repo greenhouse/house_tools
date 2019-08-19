@@ -120,6 +120,52 @@ def procValidatePIN(strPIN=''):
 
         return result
 
+def procGetEmpData(strPIN=''):
+    funcname = f'({__filename}) procGetEmpData({strPIN})'
+    logenter(funcname, simpleprint=False, tprint=True)
+
+    #============ open db connection ===============#
+    global cur
+    if open_database_connection() < 0:
+        return -1
+
+    if cur == None:
+        logerror(funcname, strErrCursor, strErrConn, simpleprint=False)
+        return -1
+
+    #============ perform db query ===============#
+    try:
+        argsTup = (strPIN,)
+        strProc = 'GetEmpDataFrom_PIN'
+#        strOutParam = '@_ValidatePIN_1'
+#        procArgs = cur.callproc(f'{strProc}', argsTup)
+#        rowCnt = cur.execute(f"select {strOutParam};")
+        rowCnt = cur.execute(f'call {strProc}({strPIN});')
+        rows = cur.fetchall()
+
+#        loginfo(funcname, f" >> RESULT 'call {strProc}' procArgs: {procArgs};", simpleprint=True)
+        loginfo(funcname, f" >> RESULT 'call {strProc}' rowCnt: {rowCnt};", simpleprint=True)
+        loginfo(funcname, f' >> Printing... rows', *rows, simpleprint=True)
+        loginfo(funcname, f' >> Printing... rows[0]:', rows[0], simpleprint=True)
+        result = None;
+#        result = int(rows[0][strOutParam])
+        if 'result' in rows[0]:
+            result = rows[0]['result']
+        else:
+            result = rows[0]
+    except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
+        #============ handle db exceptions ===============#
+        strE_0 = f"Exception hit... \nFAILED to call '{funcname}'; \n\nreturning -1"
+        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
+        logerror(funcname, strE_0, strE_1, simpleprint=False)
+        result = -1
+    finally:
+        #============ close db connection ===============#
+        close_database_connection()
+
+        return result
+
+
 #====================================================#
 #====================================================#
 
