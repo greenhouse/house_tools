@@ -83,7 +83,7 @@ def close_database_connection():
 
 def procValidatePIN(strPIN=''):
     funcname = f'({__filename}) procValidatePIN({strPIN})'
-    logenter(funcname, simpleprint=False, tprint=False)
+    logenter(funcname, simpleprint=False, tprint=True)
 
     #============ open db connection ===============#
     global cur
@@ -96,18 +96,25 @@ def procValidatePIN(strPIN=''):
 
     #============ perform db query ===============#
     try:
-#        tup = (strPIN,)
-#        procArgs = cur.callproc(f"ValidatePIN", tup)
-#        loginfo(funcname, f" >> '{funcname}' RESULT procArgs: {procArgs};", simpleprint=True)
-        rowCnt = cur.execute(f"call ValidatePIN({strPIN});")
+        strOutResult = ''
+#        argsTup = (strPIN,strOutResult)
+        argsTup = (strPIN,'p_out')
+        procArgs = cur.callproc(f"ValidatePIN", argsTup)
+        loginfo(funcname, f" >> '{funcname}' RESULT procArgs: {procArgs};", simpleprint=True)
+        rowCnt = cur.execute(f"select @_ValidatePIN_1;")
         rows = cur.fetchall()
+        
+#        rowCnt = cur.execute(f"call ValidatePIN({strPIN});")
+#        rows = cur.fetchall()
         loginfo(funcname, f" >> '{funcname}' RESULT rowCnt: {rowCnt};", simpleprint=True)
 
         print(f' >> Printing... rows', *rows, sep='\n ')
         print(f' >> Printing... rows[0]:', rows[0])
 #        result = rows
 #        lst_result = [elem for elem in rows[0].values()]
-        result = int(rows[0]['result'])
+#        result = int(rows[0]['result'])
+        result = int(rows[0]['@_ValidatePIN_1'])
+    
 #        result = procArgs
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #============ handle db exceptions ===============#
