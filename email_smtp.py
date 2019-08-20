@@ -21,15 +21,15 @@ SES_RECEIVER = sites.gms_post_receiver
 
 def sendEmailTest(test_id=-1, dev_msg='nil'):
     funcname = f'({__filename}) sendEmailTest'
-    receiver = SES_RECEIVER
+    receivers = [SES_RECEIVER]
     sender = SES_ADMIN
     subject = f"server test email [{test_id}]"
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
-    return sendTextEmail(sender, receiver, subject, body)
+    return sendTextEmail(sender, receivers, subject, body)
 
 def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
     funcname = f'({__filename}) sendEmailTest'
-    receiver = SES_RECEIVER
+    receivers = [SES_RECEIVER]
     sender = SES_ADMIN
 
     strType = "unknown"
@@ -40,26 +40,26 @@ def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='tit
 
     subject = f"GMS_post_{strType}_{uname}_({strSubjAdd})_{strTime}"
     body = f"{title}\n\n{strHtml}\n\n_END_\n"
-    return sendTextEmail(sender, receiver, subject, body)
+    return sendTextEmail(sender, receivers, subject, body)
 
 #=====================================================#
 # legacy misc
 #=====================================================#
 def sendEmailServerErrorDb(sourceFunc, dbquery, dev_msg):
     funcname = f'({__filename}) sendEmailServerErrorDb'
-    receiver = SES_RECEIVER
+    receivers = [SES_RECEIVER]
     sender = SES_ADMIN
     subject = f"server ERROR->DB! [func: {sourceFunc}]"
     body = f"Server database error occurred during...\n\n\n     dbquery: {sourceFunc}\n\n\n within function: {dbquery}\n\n Developer Msg: {dev_msg}\n\n"
-    sendTextEmail(sender, receiver, subject, body)
+    sendTextEmail(sender, receivers, subject, body)
 
 def sendEmailServerException(sourceFunc, e, code_msg):
     funcname = f'({__filename}) sendEmailServerException'
-    receiver = SES_RECEIVER
+    receivers = [SES_RECEIVER]
     sender = SES_ADMIN
     subject = f"GMS_server_EXCEPTION! [func: {sourceFunc}]"
     body = f"Server exception occurred within function: {sourceFunc}\n\n Python Code Msg: {code_msg}\n\n\n [exception_]: \n{e}\n[_exception]"
-    sendTextEmail(sender, receiver, subject, body)
+    sendTextEmail(sender, receivers, subject, body)
 
 
 #=====================================================#
@@ -123,21 +123,22 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
     
     return True
 
-def sendTextEmail(sender_email, recipient_email, subject, text):
+def sendTextEmail(sender_email, lst_recipients, subject, text):
     funcname = f'({__filename}) sendTextEmail'
-    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}" % ",".join([recipient_email])
+    funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}" % ",".join(lst_recipients)
     #logenter(funcname, funparams, simpleprint=False, tprint=True)
     loginfo(funcname, 'START -> sendTextEmail', simpleprint=True)
+    iDebugLvl = 3
     try:
         # note (RFC 5322): this syntax must remain (i.e. cannot pre-pend new line)
-        msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
+        msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join(lst_recipients)
         server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
-        #server.set_debuglevel(1)
+        #server.set_debuglevel(iDebugLvl)
         server.ehlo()
         server.login(SES_LOGIN, SES_PASSWORD)
         logalert(funcname, f'\nHeader... \n{msg}', simpleprint=True)
         #logalert(funcname, f'\nText... \n{text}', simpleprint=False)
-        server.sendmail(sender_email, recipient_email, msg + text)
+        server.sendmail(sender_email, lst_recipients, msg + text)
         server.quit()
         loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
         return True, 'no exception'
@@ -146,16 +147,13 @@ def sendTextEmail(sender_email, recipient_email, subject, text):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        iDebugLvl = 3
         logerror(funcname, f"  Exception caught during send email attempt: {e} \n", f"\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
         try:
-            # note (RFC 5322): this syntax must remain (i.e. cannot pre-pend new line)
-            msg = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\n\r\n" % ",".join([recipient_email])
             server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
             server.set_debuglevel(iDebugLvl)
             server.ehlo()
             server.login(SES_LOGIN, SES_PASSWORD)
-            server.sendmail(sender_email, recipient_email, msg + text)
+            server.sendmail(sender_email, lst_recipients, msg + text)
             server.quit()
             loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed... \n{funparams}\n')
             return True, f'no exception on retry; first e: {e}'
