@@ -27,7 +27,7 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
     return sendTextEmail(sender, receiver, subject, body)
 
-def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil'):
+def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
     funcname = f'({__filename}) sendEmailTest'
     receiver = SES_RECEIVER
     sender = SES_ADMIN
@@ -37,8 +37,8 @@ def sendGmsPostSumbit(iType=0, uname='uname_nil', strTime='time_nil', title='tit
         strType = 'job'
     if iType == 2: # candidate
         strType = 'cand'
-    
-    subject = f"GMS_post_{strType}_{uname}_{strTime}"
+
+    subject = f"GMS_post_{strType}_{uname}_({strSubjAdd})_{strTime}"
     body = f"{title}\n\n{strHtml}\n\n_END_\n"
     return sendTextEmail(sender, receiver, subject, body)
 
