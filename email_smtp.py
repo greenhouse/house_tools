@@ -16,6 +16,7 @@ SES_FROMADDR = sites.gms_SES_FROMADDR
 SES_LOGIN = sites.gms_SES_LOGIN
 SES_PASSWORD = sites.gms_SES_PASSWORD
 
+SES_CORP_ADMIN = sites.gms_corp_admin_email
 SES_ADMIN = sites.gms_admin_email
 SES_RECEIVER = sites.gms_post_receiver
 
@@ -27,9 +28,10 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
     return sendTextEmail(sender, receivers, subject, body)
 
-def sendGmsPostSourceHTML(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
-    funcname = f'({__filename}) sendGmsPostSourceHTML'
+def sendGmsPostConfirm(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strFormData='form_nil', strSubjAdd=''):
+    funcname = f'({__filename}) sendGmsPostConfirm'
     receivers = [SES_RECEIVER, uemail]
+    #receivers = [SES_RECEIVER, SES_CORP_ADMIN, uemail]
     sender = SES_ADMIN
 
     strType = "unknown"
@@ -39,6 +41,22 @@ def sendGmsPostSourceHTML(iType=0, uname='uname_nil', uemail='uemail_nil', strTi
         strType = 'cand'
 
     subject = f"GMS_post_{strType}_{uname}_({strSubjAdd})_{strTime}"
+    msg = f"Hello {uname}, \nYour post has been successfully submitted for approval. \nThe information for your post is listed below. \nIf you have any questions or concerns, please feel free to 'reply-to-all' in this email!"
+    body = f"{msg}\n\n{strFormData}\n\n_END_\n"
+    return sendTextEmail(sender, receivers, subject, body)
+
+def sendGmsPostSourceHTML(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
+    funcname = f'({__filename}) sendGmsPostSourceHTML'
+    receivers = [SES_RECEIVER]
+    sender = SES_ADMIN
+
+    strType = "unknown"
+    if iType == 1: # job
+        strType = 'job'
+    if iType == 2: # candidate
+        strType = 'cand'
+
+    subject = f"GMS_post_{strType}_{uname}_({strSubjAdd})_{strTime}_SOURCE"
     body = f"{title}\n\n{strHtml}\n\n_END_\n"
     return sendTextEmail(sender, receivers, subject, body)
 
