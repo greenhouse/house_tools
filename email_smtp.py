@@ -27,8 +27,9 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
     body = f"Server test email body...\n\n\n     dev_msg: {dev_msg}\n\n\n _END_\n\n"
     return sendTextEmail(sender, receivers, subject, body)
 
-def sendGmsPostSumbit(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
-    funcname = f'({__filename}) sendEmailTest'
+#def sendGmsPostSumbit(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
+def sendGmsPostSourceHTML(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
+    funcname = f'({__filename}) sendGmsPostSourceHTML'
     receivers = [SES_RECEIVER, uemail]
     sender = SES_ADMIN
 
