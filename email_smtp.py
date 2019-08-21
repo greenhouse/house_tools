@@ -30,8 +30,8 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
 
 def sendGmsPostConfirm(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strFormData='form_nil', strSubjAdd=''):
     funcname = f'({__filename}) sendGmsPostConfirm'
-    receivers = [SES_RECEIVER, uemail]
-    #receivers = [SES_RECEIVER, SES_CORP_ADMIN, uemail]
+    #receivers = [SES_RECEIVER, uemail]
+    receivers = [SES_RECEIVER, SES_CORP_ADMIN, uemail]
     sender = SES_ADMIN
 
     strType = "unknown"
