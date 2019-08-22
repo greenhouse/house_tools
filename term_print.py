@@ -7,7 +7,7 @@ import os
 import threading
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-import appscript # $ python3.7 -m pip install appscript
+#import appscript # $ python3.7 -m pip install appscript
 
 logenter(__filename, " IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
