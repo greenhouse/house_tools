@@ -1,6 +1,7 @@
 __filename = 'email_smtp.py'
 print(f'GO {__filename} -> starting IMPORTs')
 from .xlogger import *
+from .print_helpers import *
 import os
 import re
 from random import randrange
@@ -145,7 +146,7 @@ def sendTextEmail(sender_email, lst_recipients, subject, text):
     funcname = f'({__filename}) sendTextEmail'
     funparams = f"From: {sender_email}\r\nTo: %s\r\nSubject: {subject}\r\nBody: \n{text}" % ",".join(lst_recipients)
     #logenter(funcname, funparams, simpleprint=False, tprint=True)
-    loginfo(funcname, 'START -> sendTextEmail', simpleprint=True)
+    loginfo(funcname, f"START -> sendTextEmail w/ subject: '{subject}'", simpleprint=True)
     iDebugLvl = 3
     try:
         # note (RFC 5322): this syntax must remain (i.e. cannot pre-pend new line)
@@ -156,16 +157,15 @@ def sendTextEmail(sender_email, lst_recipients, subject, text):
         server.login(SES_LOGIN, SES_PASSWORD)
         logalert(funcname, f'\nHeader... \n{msg}', simpleprint=True)
         #logalert(funcname, f'\nText... \n{text}', simpleprint=False)
-        server.sendmail(sender_email, lst_recipients, msg + text)
+        strMsgEncode = getStrEncodeUTF8(msg + text)
+        server.sendmail(sender_email, lst_recipients, strMsgEncode)
         server.quit()
         loginfo(funcname, 'END -> sendTextEmail SUCCESS', '\n', simpleprint=True)
         return True, 'no exception'
 
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
-        #print type(e)       # the exception instance
-        #print e.args        # arguments stored in .args
-        #print e             # __str__ allows args to be printed directly
-        logerror(funcname, f"  Exception caught during send email attempt: {e} \n", f"\n  attempting to re-send email with 'server.set_debuglevel({iDebugLvl})' enabled\n")
+        printException(e, debugLvl=2)
+        logerror(funcname, f"  Exception caught during Send Email attempt\n", f"\n  ...ATTEMPTING to RE-SEND EMAIL with 'server.set_debuglevel({iDebugLvl})' enabled\n")
         try:
             server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
             server.set_debuglevel(iDebugLvl)
@@ -173,12 +173,17 @@ def sendTextEmail(sender_email, lst_recipients, subject, text):
             server.login(SES_LOGIN, SES_PASSWORD)
             server.sendmail(sender_email, lst_recipients, msg + text)
             server.quit()
-            loginfo(logfuncname, 're-send email succeeded this time! wtf?!?', f'FuncParamsPassed... \n{funparams}\n')
+            loginfo(logfuncname, 're-send email succeeded this time! wtf?', f'FuncParamsPassed... \n{funparams}\n')
             return True, f'no exception on retry; first e: {e}'
+        except UnicodeEncodeError as e:
+            printException(e, debugLvl=2)
+            logerror(funcname, f"  UnicodeEncodeError Exception caught during RE-SEND EMAIL attempt w/ 'server.set_debuglevel({iDebugLvl})' enabled\n", "\n  returning False and continuing callstack")
+            return False, f'UnicodeEncodeError exception: {e}'
         except Exception as e:
+            printException(e, debugLvl=2)
             strFunParamsRepr = f"\nFuncParamsPassed... repr(funparams)... \n\n{repr(funparams)}\n\n"
             strFuncParams = strFunParamsRepr + f"\nFuncParamsPassed... \n\n{funparams}\n\n"
-            logerror(funcname, f"  email re-send Exception... \n  {e}\n  returning False and continuing callstack", strFuncParams)
+            logerror(funcname, f"  Exception caught during RE-SEND EMAIL attempt w/ 'server.set_debuglevel({iDebugLvl})' enabled... {e}\n  returning False and continuing callstack", strFuncParams)
             return False, f'exception: {e}'
 
 """def queueEmail(sender_email, recipient_email, html, text):
