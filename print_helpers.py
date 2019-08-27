@@ -8,6 +8,9 @@ import sys, os, traceback
 import decimal
 import json
 
+def getStrEncodeUTF8(strOrigin):
+    return strOrigin.encode('utf-8')
+
 def getStrJsonPretty(miscJson={}):
     funcname = f'<{__filename}> strJsonPretty'
     #print('\n',funcname,' _ ENTER\n')
@@ -30,6 +33,16 @@ def randomizeString(strInput):
     strOutput = ''.join([str(w) for w in random.sample(strInput, len(strInput))])
     print(f'output string: {strOutput}')
     return strOutput
+
+def encodeStrInDictUTF8(dictStr):
+    funcname = f'<{__filename}> encodeStrInDictUTF8'
+    print(f'\n{funcname} _ ENTER')
+    dict_strip = {}
+    for key in dictStr:
+        strfix = str(dictStr[key])
+        dict_strip[key] = getStrEncodeUTF8(strfix)
+    print(f'{funcname} _ EXIT', '\n')
+    return dict_strip
 
 def stripStrWhiteSpaceInDict(dictStr):
     funcname = f'<{__filename}> stripStrWhiteSpaceInDict'
@@ -71,13 +84,13 @@ def printException(e, debugLvl=0):
     #print e             # __str__ allows args to be printed directly
     print('', cStrDividerExcept, f' Exception Caught _ e: {e}', cStrDividerExcept, sep='\n')
     if debugLvl > 0:
-        print('', cStrDividerExcept, f' Exception Caught _ e.args: {e.args}', cStrDividerExcept, sep='\n')
-    if debugLvl > 1:
         print('', cStrDividerExcept, f' Exception Caught _ type(e): {type(e)}', cStrDividerExcept, sep='\n')
-    
+    if debugLvl > 1:
+        print('', cStrDividerExcept, f' Exception Caught _ e.args: {e.args}', cStrDividerExcept, sep='\n')
+
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-#    print(traceback.format_exc())
+    #print(traceback.format_exc())
     strTrace = traceback.format_exc()
     #print(exc_type, fname, exc_tb.tb_lineno)
     print('', cStrDividerExcept, f' type: {exc_type}', f' file: {fname}', f' line_no: {exc_tb.tb_lineno}', f' traceback: {strTrace}', cStrDividerExcept, sep='\n')
