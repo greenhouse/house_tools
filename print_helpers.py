@@ -78,6 +78,7 @@ def truncate(number, digits, bDecReturn=False):
         return decTrunc2
     return float(decTrunc2)
 
+#ref: https://stackoverflow.com/a/1278740/2298002
 def printException(e, debugLvl=0):
     #print type(e)       # the exception instance
     #print e.args        # arguments stored in .args
