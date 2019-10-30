@@ -174,7 +174,7 @@ def sendTextEmail(sender_email, lst_recipients, subject, text):
             server.login(SES_LOGIN, SES_PASSWORD)
             server.sendmail(sender_email, lst_recipients, msg + text)
             server.quit()
-            loginfo(logfuncname, 're-send email succeeded this time! wtf?', f'FuncParamsPassed... \n{funparams}\n')
+            loginfo(funcname, 're-send email succeeded this time! wtf?', f'FuncParamsPassed... \n{funparams}\n')
             return True, f'no exception on retry; first e: {e}'
         except UnicodeEncodeError as e:
             printException(e, debugLvl=2)
