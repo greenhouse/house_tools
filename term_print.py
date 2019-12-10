@@ -1,6 +1,8 @@
 __filename = 'termprint.py'
+__fname = 'termprint'
 cStrDivider = '#================================================================#'
-print(f'GO {__filename} -> starting IMPORTs')
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print(f'GO {__filename} -> starting IMPORTs and globals decleration')
 
 from .xlogger import *
 import os
@@ -32,3 +34,6 @@ def launchTerminalPython(pyPath, strArgs):
     ascript = f'python3.7 {pyPath} {strArgs}'
     appscript.app('Terminal').do_script(ascript)
 
+loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . .", simpleprint=True)
+loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ...", simpleprint=False)
+print('#======================================================================#')

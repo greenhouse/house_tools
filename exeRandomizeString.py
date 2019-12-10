@@ -36,6 +36,10 @@ def checkPriorityFlagsAndExit():
             printEndAndExit(__filename, exit_code=0)
     print('', f"Done checking for '--help' flag...", '\n')
 
+
+loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . .", simpleprint=True)
+print('#======================================================================#')
+
 readCliArgs()
 argCnt = len(sys.argv)
 if argCnt > 1:
@@ -64,3 +68,7 @@ if argCnt > 1:
 
 print('', f"*** ERROR -> invalid input param... ***", "expected flags:", *lst_flags, "\nexiting...", sep='\n')
 printEndAndExit(__filename, exit_code=3)
+
+
+loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ...", simpleprint=False)
+print('#======================================================================#')
