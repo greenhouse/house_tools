@@ -2,7 +2,7 @@ __filename = 'db_helpers.py'
 __fname = 'db_helpers'
 cStrDivider = '#================================================================#'
 print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
-print('GO {__filename} -> starting IMPORTs and globals decleration')
+print(f'GO {__filename} -> starting IMPORTs and globals decleration')
 import sites #required: sites/__init__.py
 from .xlogger import *
 #from utilities import * #imports 'from sites import *'

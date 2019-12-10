@@ -2,7 +2,7 @@ __filename = 'email_smtp.py'
 __fname = 'email_smtp'
 cStrDivider = '#================================================================#'
 print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
-print('GO {__filename} -> starting IMPORTs and globals decleration')
+print(f'GO {__filename} -> starting IMPORTs and globals decleration')
 from .xlogger import *
 from .print_helpers import *
 import os

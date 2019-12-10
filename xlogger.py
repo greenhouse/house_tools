@@ -2,7 +2,7 @@ __filename = 'xlogger.py'
 __fname = 'xlogger'
 cStrDivider = '#================================================================#'
 print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
-print('GO {__filename} -> starting IMPORTs and globals decleration')
+print(f'GO {__filename} -> starting IMPORTs and globals decleration')
 import logging
 import time
 from datetime import datetime

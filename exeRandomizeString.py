@@ -2,7 +2,7 @@ __filename = 'exeRandomizeString.py'
 __fname = 'exeRandomizeString'
 cStrDivider = '#================================================================#'
 print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
-print('GO {__filename} -> starting IMPORTs and globals decleration')
+print(f'GO {__filename} -> starting IMPORTs and globals decleration')
 from print_helpers import *
 
 print(f"IMPORTs complete:- STARTING -> file '{__filename}' . . . \n", sep='')
