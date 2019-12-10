@@ -170,7 +170,7 @@ def procGetEmpData(strPIN=''):
 #====================================================#
 #====================================================#
 
-loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . . \n\n", simpleprint=True)
+loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . .", simpleprint=True)
+loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ... \n", simpleprint=False)
 print('\n')
 print('#======================================================================#')
-loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ... \n", simpleprint=True)
