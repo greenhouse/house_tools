@@ -11,16 +11,16 @@ import smtplib
 
 logenter(__filename, f"\n IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=False, tprint=True)
 
-SES_SERVER = sites.gms_SES_SERVER
-SES_PORT = sites.gms_SES_PORT
-SES_FROMADDR = sites.gms_SES_FROMADDR
-SES_LOGIN = sites.gms_SES_LOGIN
-SES_PASSWORD = sites.gms_SES_PASSWORD
+SES_SERVER = sites.SES_SERVER
+SES_PORT = sites.SES_PORT
+SES_FROMADDR = sites.SES_FROMADDR
+SES_LOGIN = sites.SES_LOGIN
+SES_PASSWORD = sites.SES_PASSWORD
 
-SES_CORP_ADMIN = sites.gms_corp_admin_email
-SES_CORP_RECEPT = sites.gms_corp_recept_email
-SES_ADMIN = sites.gms_admin_email
-SES_RECEIVER = sites.gms_post_receiver
+SES_CORP_ADMIN = sites.corp_admin_email
+SES_CORP_RECEPT = sites.corp_recept_email
+SES_ADMIN = sites.admin_email
+SES_RECEIVER = sites.post_receiver
 
 def sendEmailTest(test_id=-1, dev_msg='nil'):
     funcname = f'({__filename}) sendEmailTest'

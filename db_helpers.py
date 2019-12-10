@@ -23,10 +23,10 @@ import pymysql.cursors
 logenter(__filename, " IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 #db_connect from sites/__init__.py
-dbUser = sites.dbUserGms
-dbPw = sites.dbPwGms
-dbName = sites.dbNameGms
-dbHost = sites.dbHostGms
+dbUser = sites.dbUser
+dbPw = sites.dbPw
+dbName = sites.dbName
+dbHost = sites.dbHost
 
 db = None
 cur = None
