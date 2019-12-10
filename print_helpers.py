@@ -1,7 +1,9 @@
 __filename = 'print_helpers.py'
+__fname = 'print_helpers'
 cStrDividerExcept = '***************************************************************'
 cStrDivider = '#================================================================#'
-print(f'GO {__filename} -> starting IMPORTs')
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print('GO {__filename} -> starting IMPORTs and globals decleration')
 import random
 from flask import Response
 import sys, os, traceback

@@ -1,4 +1,8 @@
-print('GO xlogger.py -> starting IMPORTs')
+__filename = 'xlogger.py'
+__fname = 'xlogger'
+cStrDivider = '#================================================================#'
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print('GO {__filename} -> starting IMPORTs and globals decleration')
 import logging
 import time
 from datetime import datetime
@@ -133,7 +137,10 @@ def simplePrint(prefix, suffix):
     print(' %s %s' % (prefix, suffix))
 
 
-
+loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . . \n\n", simpleprint=True)
+print('\n')
+print('#======================================================================#')
+loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ... \n", simpleprint=False)
 
 
 

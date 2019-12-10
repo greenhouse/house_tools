@@ -1,7 +1,8 @@
 __filename = 'db_helpers.py'
+__fname = 'db_helpers'
 cStrDivider = '#================================================================#'
-print(f'GO {__filename} -> starting IMPORTs')
-
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print('GO {__filename} -> starting IMPORTs and globals decleration')
 import sites #required: sites/__init__.py
 from .xlogger import *
 #from utilities import * #imports 'from sites import *'
@@ -20,7 +21,7 @@ from .xlogger import *
     '''
 import pymysql.cursors
 
-logenter(__filename, " IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
+logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 #db_connect from sites/__init__.py
 dbUser = sites.dbUser

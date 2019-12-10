@@ -1,5 +1,8 @@
 __filename = 'email_smtp.py'
-print(f'GO {__filename} -> starting IMPORTs')
+__fname = 'email_smtp'
+cStrDivider = '#================================================================#'
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print('GO {__filename} -> starting IMPORTs and globals decleration')
 from .xlogger import *
 from .print_helpers import *
 import os
@@ -9,7 +12,7 @@ from datetime import datetime, timedelta
 from flask import render_template
 import smtplib
 
-logenter(__filename, f"\n IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=False, tprint=True)
+logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 SES_SERVER = sites.SES_SERVER
 SES_PORT = sites.SES_PORT

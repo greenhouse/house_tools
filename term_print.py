@@ -9,7 +9,7 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 #import appscript # $ python3.7 -m pip install appscript
 
-logenter(__filename, " IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
+logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 def printToCLI(strMsg,strTTY):
     funcname = f'({__filename}) printToCLI'

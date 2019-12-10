@@ -1,5 +1,8 @@
-
-print('GO constants.py -> starting IMPORTs')
+__filename = 'constants.py'
+__fname = 'constants'
+cStrDivider = '#================================================================#'
+print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
+print('GO {__filename} -> starting IMPORTs and globals decleration')
 
 #=======================================================================#
                 # json error key/values #
