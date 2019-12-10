@@ -3,7 +3,7 @@ __fname = 'constants'
 cStrDivider = '#================================================================#'
 print('', cStrDivider, f'START _ {__filename}', cStrDivider, sep='\n')
 print(f'GO {__filename} -> starting IMPORTs and globals decleration')
-
+from .xlogger import *
 #=======================================================================#
                 # json error key/values #
 kErrArgs = "err_args"
