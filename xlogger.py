@@ -138,8 +138,7 @@ def simplePrint(prefix, suffix):
 
 
 loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . .", simpleprint=True)
-loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ... \n", simpleprint=False)
-print('\n')
+loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ...", simpleprint=False)
 print('#======================================================================#')
 
 
