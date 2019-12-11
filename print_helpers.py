@@ -10,6 +10,7 @@ from flask import Response
 import sys, os, traceback
 import decimal
 import json
+from re import *
 
 def getStrEncodeUTF8(strOrigin):
     return strOrigin.encode('utf-8')
@@ -156,6 +157,46 @@ def getPrintListStrTuple(lst=[], strListTitle='list', useEnumerate=True, goIdxPr
     lst_len = len(lst)
     print(f'{strListTitle} _ {strGoIndexPrint} _ count {lst_len}:\n', *lst_str, sep = "\n ")
     return lst_str
+    
+## parse database query row into json dict ##
+# @descr: parses a database query row, into a json
+# @expects: db query row dictionary and keys to parse
+# @requires: row, keys
+# @returns: dictionary with db query string return as a json
+def getJsonDictFromDBQueryRowWithKeys(row, keys):
+    funcname = f'<{__filename}> getJsonDictFromDBQueryRowWithKeys'
+    logenter(funcname, simpleprint=False, tprint=False)
+
+    jsonDict = {}
+    for key in keys:
+        #loginfo(funcname, '\n\n key: %s\n\n' % key, '')
+        if key not in row:
+            #loginfo(funcname, '\n\n key: %s NOT IN row: %s\n\n' % (key, row), '')
+            continue
+
+        if match('dt_*', key) is not None:
+            try:
+                #convert dt to seconds since 1970
+                # note: needed because JSONResponse() parsing issues
+                jsonDict[key] = jsonTimestampFromDBQueryTimestamp(row[key])
+
+            except Exception as e:
+                logerror(funcname, "\n\n!EXCEPTION HIT!\n\n e: '%s';\n\n in 'jsonDict[key] = jsonTimestampFromDBQueryTimestamp(row[key])'\n\n" % e, " falling back to 'jsonDict[key] = row[key]' instead")
+                jsonDict[key] = row[key]
+        else:
+            jsonDict[key] = row[key]
+
+    #loginfo(funcname, '\njsonDict: %s\n' % jsonDict, '')
+    return jsonDict
+
+## gets json compatible timestamp from db query timestamp ##
+def jsonTimestampFromDBQueryTimestamp(timestamp):
+    if timestamp == None:
+        return None
+
+    # NOTE: code %s means seconds,
+    #   ref: http://strftime.org/
+    return int(timestamp.strftime("%s"))
 
 loginfo(__filename, f"\n CLASSES & FUNCTIONS initialized:- STARTING -> additional '{__filename}' run scripts (if applicable) . . .", simpleprint=True)
 loginfo(__filename, f"\n  DONE Executing additional '{__filename}' run scripts ...", simpleprint=False)
