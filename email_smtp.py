@@ -113,7 +113,7 @@ def getCode(codeLen):
     return "".join(newCode)
 
 def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemplate, c={}):
-    funcname = f'({__filename}) sendHTMLEmail'
+    funcname = f'({__filename}) sendHTMLEmail(sender_email={sender_email}, recipient_email={recipient_email}, subject={subject}, htmlTemplate=..., textTemplate=..., c={c})'
     logenter(funcname, simpleprint=False, tprint=True)
     
     # Create message container - the correct MIME type is multipart/alternative.
