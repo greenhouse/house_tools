@@ -12,6 +12,9 @@ from datetime import datetime, timedelta
 from flask import render_template
 import smtplib
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 SES_SERVER = sites.SES_SERVER
@@ -109,6 +112,9 @@ def getCode(codeLen):
     return "".join(newCode)
 
 def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemplate, c={}):
+    funcname = f'({__filename}) sendHTMLEmail'
+    logenter(funcname, simpleprint=False, tprint=True)
+    
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject.encode('utf-8')
