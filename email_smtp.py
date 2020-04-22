@@ -129,9 +129,11 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
     #msg["Date"] = email.Utils.formatdate(localtime=True)
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = render_template(textTemplate, c=c)
+    #text = render_template(textTemplate, c=c)
+    text = textTemplate
     loginfo(funcname, '... 05', simpleprint=True)
-    html = render_template(htmlTemplate, c=c)
+    #html = render_template(htmlTemplate, c=c)
+    html = htmlTemplate
     loginfo(funcname, '... 06', simpleprint=True)
 
     # Record the MIME types of both parts - text/plain and text/html.
