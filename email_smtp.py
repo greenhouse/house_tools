@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from flask import render_template
 import smtplib
 
+import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
