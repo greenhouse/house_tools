@@ -105,8 +105,13 @@ def send_apns_msg(token, payload):
 
     try:
         token = binascii.unhexlify(token)    # generate APNS notification packet
-    except:
-        logerror(funcname, "\n\n EXCEPTION somewhere binascii.unhexlify(token)", "")
+    except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
+        #print type(e)       # the exception instance
+        #print e.args        # arguments stored in .args
+        #print e             # __str__ allows args to be printed directly
+        strE_0 = f"Exception hit... \nsomewhere binascii.unhexlify(token) '{funcname}'; \n\nreturning False"
+        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
+        logerror(funcname, strE_0, strE_1, simpleprint=False)
         return False
     
     try:
