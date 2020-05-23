@@ -35,7 +35,7 @@ def sendApnsTokenDictMsg(token, dict, msg, use_dev_cert=False):
 
     result = open_apns_socket(certfile, use_dev_cert)
     if result==False:
-        logerror(logfuncname, '\n\n FAILED open_apns_socket', '')
+        logerror(funcname, '\n\n FAILED open_apns_socket', '')
         return False
 
     payload = {'PAYLOAD':dict, 'aps':{'alert':msg, 'badge':1, 'sound':'default'}}
@@ -43,21 +43,21 @@ def sendApnsTokenDictMsg(token, dict, msg, use_dev_cert=False):
     try:
         result = send_apns_msg(token, payload)
         if result==False:
-            logerror(logfuncname, '\n\n FAILED send_apns_msg for apns_dt: %s' % token, 'PAYLOAD dict: %s' % dict)
+            logerror(funcname, '\n\n FAILED send_apns_msg for apns_dt: %s' % token, 'PAYLOAD dict: %s' % dict)
             close_apns_socket()
             return False
 
-        loginfo(logfuncname, 'push succeeded for ios_apns_token: %s' % token, 'PAYLOAD dict: %s' % dict)
+        loginfo(funcname, 'push succeeded for ios_apns_token: %s' % token, 'PAYLOAD dict: %s' % dict)
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        logerror(logfuncname, '\n\n send_apns_msg Exception: %s' % e, '')
+        logerror(funcname, '\n\n send_apns_msg Exception: %s' % e, '')
         close_apns_socket()
         return False
 
     close_apns_socket()
-    logexit(logfuncname, '', '')
+    logexit(funcname, '', '')
     return True
 
 ###############################################
@@ -66,7 +66,6 @@ def sendApnsTokenDictMsg(token, dict, msg, use_dev_cert=False):
 def open_apns_socket(certfile, use_dev_cert=False):
     funcname = f'({__filename}) open_apns_socket(certfile={certfile})'
     logenter(funcname, simpleprint=False, tprint=True)
-    logfuncname = 'apns.open_apns_socket'
 
     # APNS server address (use 'gateway.push.apple.com' for production server)
     apns_address = ('gateway.push.apple.com', 2195)
@@ -83,14 +82,14 @@ def open_apns_socket(certfile, use_dev_cert=False):
         sock = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_SSLv23, certfile=certfile)
     except:
         e = sys.exc_info()[0]
-        logerror(logfuncname, "\n\n EXCEPTION somewhere global sock.wrap_sockets %s" % e, "")
+        logerror(funcname, "\n\n EXCEPTION somewhere global sock.wrap_sockets %s" % e, "")
         return False
 
     try:
         sock.connect(apns_address)
     except:
         e = sys.exc_info()[0]
-        logerror(logfuncname, "\n\n EXCEPTION somewhere global sock.connect %s" % e, "")
+        logerror(funcname, "\n\n EXCEPTION somewhere global sock.connect %s" % e, "")
         return False
 
     logging.info(' ')
@@ -107,33 +106,33 @@ def send_apns_msg(token, payload):
     try:
         token = binascii.unhexlify(token)    # generate APNS notification packet
     except:
-        logerror(logfuncname, "\n\n EXCEPTION somewhere binascii.unhexlify(token)", "")
+        logerror(funcname, "\n\n EXCEPTION somewhere binascii.unhexlify(token)", "")
         return False
     
     try:
         payload = json.dumps(payload)
         fmt = "!cH32sH{0:d}s".format(len(payload))
     except:
-        logerror(logfuncname, "\n\n EXCEPTION somewhere format(len(payload))", "")
+        logerror(funcname, "\n\n EXCEPTION somewhere format(len(payload))", "")
         return False
 
     try:
         cmd = '\x00'
         msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
     except:
-        logerror(logfuncname, "\n\n EXCEPTION somewhere struct.pack", "")
+        logerror(funcname, "\n\n EXCEPTION somewhere struct.pack", "")
         return False
 
-    loginfo(logfuncname, 'msg created...', '')
+    loginfo(funcname, 'msg created...', '')
     
     try:
         global sock
         sock.write(msg)
     except:
-        logerror(logfuncname, "EXCEPTION somewhere global sock.write(msg)", "")
+        logerror(funcname, "EXCEPTION somewhere global sock.write(msg)", "")
         return False
 
-    logexit(logfuncname, 'Sending APNS finished', '')
+    logexit(funcname, 'Sending APNS finished', '')
     return True
 
 def close_apns_socket():
