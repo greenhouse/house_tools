@@ -22,6 +22,7 @@ logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . .
 
 sock = None
 
+bUse_dev_cert = True
 ###############################################
 ############ pub - actions ############
 ###############################################
@@ -29,8 +30,9 @@ def sendApnsTokenDictMsg(token, dict, msg):
     funcname = f'({__filename}) sendApnsTokenDictMsg({token}, {dict}, {msg})'
     logenter(funcname, simpleprint=False, tprint=True)
 
-#    certfile = 'apns-dev-noenc-buy.pem'
-    certfile = 'apns-prod-noenc-buy.pem'
+    certfile = 'apns-prod-noenc.pem'
+    if bUse_dev_cert:
+        certfile = 'apns-dev-noenc.pem'
 
     result = open_apns_socket(certfile)
     if result==False:
