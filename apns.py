@@ -30,7 +30,7 @@ def sendApnsTokenDictMsg(token, dict, msg, use_dev_cert=False):
     logenter(funcname, simpleprint=False, tprint=True)
 
     certfile = 'apns-prod-noenc.pem'
-    if use_dev:
+    if use_dev_cert:
         certfile = 'apns-dev-noenc.pem'
 
     result = open_apns_socket(certfile)
