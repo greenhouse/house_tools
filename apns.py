@@ -116,7 +116,8 @@ def send_apns_msg(token, payload):
     
     try:
         payload = json.dumps(payload)
-        fmt = "!cH32sH{0:d}s".format(len(payload))
+        #fmt = "!cH32sH{0:d}s".format(len(payload))
+        fmt = "!BH32sH%ds".format(len(payload))
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
