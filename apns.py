@@ -129,7 +129,7 @@ def send_apns_msg(token, payload):
 
     try:
         cmd = '\x00'
-        fmt = bytes(fmt, "utf-8")
+        #fmt = bytes(fmt, "utf-8")
         cmd = bytes(cmd, "utf-8")
         payload = bytes(payload, "utf-8")
         token = bytes(token, "utf-8")
