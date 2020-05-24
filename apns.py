@@ -129,6 +129,10 @@ def send_apns_msg(token, payload):
 
     try:
         cmd = '\x00'
+        fmt = bytes(fmt, "utf-8")
+        cmd = bytes(cmd, "utf-8")
+        payload = bytes(payload, "utf-8")
+        token = bytes(token, "utf-8")
         msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
         #msg = struct.pack(fmt, cmd, len(token), token, len(payload), bytes(payload, "utf-8"))
         #msg = struct.pack(fmt, cmd, len(token), token, len(bytes(payload, "utf-8")), payload)
