@@ -117,8 +117,6 @@ def send_apns_msg(token, payload):
     try:
         payload = json.dumps(payload)
         fmt = "!cH32sH{0:d}s".format(len(payload))
-        #fmt = "!cH32sH{0:d}s".format(len(bytes(payload, "utf-8")))
-        #fmt = "!BH32sH%ds".format(len(payload))
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
@@ -129,31 +127,19 @@ def send_apns_msg(token, payload):
 
     try:
         cmd = '\x00'
-        loginfo(funcname, f'encoding fmt...', simpleprint=True)
-        fmt = bytes(fmt, "utf-8")
-        loginfo(funcname, f'encoding fmt... DONE', simpleprint=True)
-        loginfo(funcname, f'encoding cmd...', simpleprint=True)
+        
+        #python3 requirement _ ref: https://stackoverflow.com/a/31551978/2298002
         cmd = bytes(cmd, "utf-8")
-        loginfo(funcname, f'encoding cmd... DONE', simpleprint=True)
-        loginfo(funcname, f'encoding payload...', simpleprint=True)
         payload = bytes(payload, "utf-8")
-        loginfo(funcname, f'encoding payload... DONE', simpleprint=True)
-#        loginfo(funcname, f'encoding token...', simpleprint=True)
-#        token = bytes(token, "utf-8")
-#        loginfo(funcname, f'encoding token... DONE', simpleprint=True)
+        
         msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
-        #msg = struct.pack(fmt, cmd, len(token), token, len(payload), bytes(payload, "utf-8"))
-        #msg = struct.pack(fmt, cmd, len(token), token, len(bytes(payload, "utf-8")), payload)
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
         strE_0 = f"\n\n Exception hit... \n somewhere struct.pack '{funcname}'; \n\nreturning False\n"
         strE_1 = f"\n\n __Exception__: \n{e}\n __Exception__"
-        strE_2 = f"\n\n __Exception__: \n{type(e)}\n __Exception__"
-        strE_3 = f"\n\n __Exception__: \n{e.args}\n __Exception__"
-        strE_4 = strE_1 + strE_2 + strE_3
-        logerror(funcname, strE_0, strE_4, simpleprint=False)
+        logerror(funcname, strE_0, strE_1, simpleprint=False)
         return False
 
     loginfo(funcname, 'msg created...', '')
