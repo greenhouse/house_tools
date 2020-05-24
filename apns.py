@@ -109,8 +109,8 @@ def send_apns_msg(token, payload):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        strE_0 = f"\n Exception hit... \n somewhere binascii.unhexlify(token) '{funcname}'; \n\nreturning False"
-        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
+        strE_0 = f"\n\n Exception hit... \n somewhere binascii.unhexlify(token) '{funcname}'; \n\nreturning False\n"
+        strE_1 = f"\n\n __Exception__: \n{e}\n __Exception__"
         logerror(funcname, strE_0, strE_1, simpleprint=False)
         return False
     
@@ -123,8 +123,8 @@ def send_apns_msg(token, payload):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        strE_0 = f"\n Exception hit... \n somewhere format(len(payload)) '{funcname}'; \n\nreturning False"
-        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
+        strE_0 = f"\n\n Exception hit... \n somewhere format(len(payload)) '{funcname}'; \n\nreturning False\n"
+        strE_1 = f"\n\n __Exception__: \n{e}\n __Exception__"
         return False
 
     try:
@@ -136,10 +136,10 @@ def send_apns_msg(token, payload):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        strE_0 = f"\n Exception hit... \n somewhere struct.pack '{funcname}'; \n\nreturning False"
-        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
-        strE_2 = f"\n __Exception__: \n{type(e)}\n __Exception__"
-        strE_3 = f"\n __Exception__: \n{e.args}\n __Exception__"
+        strE_0 = f"\n\n Exception hit... \n somewhere struct.pack '{funcname}'; \n\nreturning False\n"
+        strE_1 = f"\n\n __Exception__: \n{e}\n __Exception__"
+        strE_2 = f"\n\n __Exception__: \n{type(e)}\n __Exception__"
+        strE_3 = f"\n\n __Exception__: \n{e.args}\n __Exception__"
         strE_4 = strE_1 + strE_2 + strE_3
         logerror(funcname, strE_0, strE_4, simpleprint=False)
         return False
