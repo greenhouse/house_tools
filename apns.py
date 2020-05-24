@@ -116,8 +116,8 @@ def send_apns_msg(token, payload):
     
     try:
         payload = json.dumps(payload)
-        #fmt = "!cH32sH{0:d}s".format(len(payload))
-        fmt = "!BH32sH%ds".format(len(payload))
+        fmt = "!cH32sH{0:d}s".format(len(payload))
+        #fmt = "!BH32sH%ds".format(len(payload))
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
@@ -128,7 +128,8 @@ def send_apns_msg(token, payload):
 
     try:
         cmd = '\x00'
-        msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
+        #msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
+        msg = struct.pack(fmt, cmd, len(token), token, len(payload), bytes(payload, "utf-8"))
     except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
