@@ -109,7 +109,7 @@ def send_apns_msg(token, payload):
         #print type(e)       # the exception instance
         #print e.args        # arguments stored in .args
         #print e             # __str__ allows args to be printed directly
-        strE_0 = f"Exception hit... \nsomewhere binascii.unhexlify(token) '{funcname}'; \n\nreturning False"
+        strE_0 = f"\n Exception hit... \n somewhere binascii.unhexlify(token) '{funcname}'; \n\nreturning False"
         strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
         logerror(funcname, strE_0, strE_1, simpleprint=False)
         return False
@@ -117,15 +117,24 @@ def send_apns_msg(token, payload):
     try:
         payload = json.dumps(payload)
         fmt = "!cH32sH{0:d}s".format(len(payload))
-    except:
-        logerror(funcname, "\n\n EXCEPTION somewhere format(len(payload))", "")
+    except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
+        #print type(e)       # the exception instance
+        #print e.args        # arguments stored in .args
+        #print e             # __str__ allows args to be printed directly
+        strE_0 = f"\n Exception hit... \n somewhere format(len(payload)) '{funcname}'; \n\nreturning False"
+        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
         return False
 
     try:
         cmd = '\x00'
         msg = struct.pack(fmt, cmd, len(token), token, len(payload), payload)
-    except:
-        logerror(funcname, "\n\n EXCEPTION somewhere struct.pack", "")
+    except Exception as e: # ref: https://docs.python.org/2/tutorial/errors.html
+        #print type(e)       # the exception instance
+        #print e.args        # arguments stored in .args
+        #print e             # __str__ allows args to be printed directly
+        strE_0 = f"\n Exception hit... \n somewhere struct.pack '{funcname}'; \n\nreturning False"
+        strE_1 = f"\n __Exception__: \n{e}\n __Exception__"
+        logerror(funcname, strE_0, strE_1, simpleprint=False)
         return False
 
     loginfo(funcname, 'msg created...', '')
