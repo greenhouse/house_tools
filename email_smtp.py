@@ -24,7 +24,9 @@ SES_CORP_ADMIN = sites.corp_admin_email
 SES_CORP_RECEPT = sites.corp_recept_email
 SES_ADMIN = sites.admin_email
 SES_RECEIVER = sites.post_receiver
-SES_RECEIVER_2 = sites.corp_recept_email
+SES_RECEIVER_2 = sites.post_receiver_2
+SES_RECEIVER_3 = sites.corp_recept_email
+
 
 def sendEmailTest(test_id=-1, dev_msg='nil'):
     funcname = f'({__filename}) sendEmailTest'
@@ -37,7 +39,7 @@ def sendEmailTest(test_id=-1, dev_msg='nil'):
 def sendGmsPostConfirm(iType=0, uname='uname_nil', uemail='uemail_nil', strTime='time_nil', title='title_nil', strFormData='form_nil', strSubjAdd=''):
     funcname = f'({__filename}) sendGmsPostConfirm'
     #receivers = [SES_RECEIVER, uemail]
-    receivers = [SES_RECEIVER, SES_CORP_ADMIN, SES_CORP_RECEPT, uemail]
+    receivers = [SES_RECEIVER, SES_RECEIVER_2, SES_CORP_ADMIN, SES_CORP_RECEPT, uemail]
     sender = SES_ADMIN
 
     strType = "unknown"
@@ -53,7 +55,7 @@ def sendGmsPostConfirm(iType=0, uname='uname_nil', uemail='uemail_nil', strTime=
 
 def sendGmsPostSourceHTML(iType=0, uname='uname_nil', strTime='time_nil', title='title_nil', strHtml='html_nil', strSubjAdd=''):
     funcname = f'({__filename}) sendGmsPostSourceHTML'
-    receivers = [SES_RECEIVER, SES_RECEIVER_2]
+    receivers = [SES_RECEIVER, SES_RECEIVER_2, SES_RECEIVER_2]
     sender = SES_ADMIN
 
     strType = "unknown"
