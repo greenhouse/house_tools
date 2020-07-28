@@ -11,6 +11,14 @@ import sys, os, traceback
 import decimal
 import json
 from re import *
+import time
+from datetime import datetime
+
+def getStrTimeNow(getSec=False):
+    timenow = f'{int(round(time.time()))}'
+    if not getSec:
+        timenow = datetime.fromtimestamp(int(timenow))
+    return timenow
 
 def getStrEncodeUTF8(strOrigin):
     return strOrigin.encode('utf-8')

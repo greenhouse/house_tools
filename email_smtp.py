@@ -12,6 +12,10 @@ from datetime import datetime, timedelta
 from flask import render_template
 import smtplib
 
+import email
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 logenter(__filename, f" IMPORTs complete:- STARTING -> file '{__filename}' . . . ", simpleprint=True, tprint=True)
 
 SES_SERVER = sites.SES_SERVER
@@ -112,26 +116,42 @@ def getCode(codeLen):
     return "".join(newCode)
 
 def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemplate, c={}):
+    funcname = f'({__filename}) sendHTMLEmail(sender_email={sender_email}, recipient_email={recipient_email}, subject={subject}, htmlTemplate=..., textTemplate=..., c={c})'
+    logenter(funcname, simpleprint=False, tprint=True)
+    
     # Create message container - the correct MIME type is multipart/alternative.
+    loginfo(funcname, '... 00', simpleprint=True)
     msg = MIMEMultipart('alternative')
+    loginfo(funcname, '... 01', simpleprint=True)
     msg['Subject'] = subject.encode('utf-8')
+    loginfo(funcname, '... 02', simpleprint=True)
     msg['From'] = sender_email.encode('utf-8')
+    loginfo(funcname, '... 03', simpleprint=True)
     msg['To'] = recipient_email.encode('utf-8')
+    loginfo(funcname, '... 04', simpleprint=True)
     #msg["Date"] = email.Utils.formatdate(localtime=True)
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = render_template(textTemplate, c=c)
-    html = render_template(htmlTemplate, c=c)
+    #text = render_template(textTemplate, c=c)
+    text = textTemplate
+    loginfo(funcname, '... 05', simpleprint=True)
+    #html = render_template(htmlTemplate, c=c)
+    html = htmlTemplate
+    loginfo(funcname, '... 06', simpleprint=True)
 
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
+    loginfo(funcname, '... 07', simpleprint=True)
     part2 = MIMEText(html, 'html')
+    loginfo(funcname, '... 08', simpleprint=True)
 
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
     # the HTML message, is best and preferred.
     msg.attach(part1)
+    loginfo(funcname, '... 09', simpleprint=True)
     msg.attach(part2)
+    loginfo(funcname, '... 10', simpleprint=True)
 
     # Send the message via local SMTP server.
     #s = smtplib.SMTP('localhost')
@@ -141,11 +161,22 @@ def sendHTMLEmail(sender_email, recipient_email, subject, htmlTemplate, textTemp
     #s.quit()
 
     server = smtplib.SMTP_SSL(SES_SERVER, SES_PORT)
+    loginfo(funcname, '... 11', simpleprint=True)
     server.set_debuglevel(1)
+    loginfo(funcname, '... 12', simpleprint=True)
     server.ehlo()
+    loginfo(funcname, '... 13', simpleprint=True)
     server.login(SES_LOGIN, SES_PASSWORD)
-    server.sendmail(sender_email, recipient_email, msg.as_string())
+    loginfo(funcname, '... 14', simpleprint=True)
+    server.sendmail(sender_email, [recipient_email], msg.as_string())
+    #server.sendmail(sender_email, [recipient_email], msg)
+    #server.sendmail(sender_email, recipient_email, msg)
+    #strMsgEncode = getStrEncodeUTF8(msg)
+    #server.sendmail(sender_email, recipient_email, strMsgEncode)
+    #server.sendmail(sender_email, [recipient_email], "msg.as_string()")
+    loginfo(funcname, '... 15', simpleprint=True)
     server.quit()
+    loginfo(funcname, '... 16', simpleprint=True)
     
     return True
 
