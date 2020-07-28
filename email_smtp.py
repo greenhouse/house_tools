@@ -29,7 +29,7 @@ SES_CORP_RECEPT = sites.corp_recept_email
 SES_ADMIN = sites.admin_email
 SES_RECEIVER = sites.post_receiver
 SES_RECEIVER_2 = sites.post_receiver_2
-SES_RECEIVER_3 = sites.corp_recept_email # 07.27.20: not in use
+#SES_RECEIVER_3 = sites.corp_recept_email # 07.27.20: not in use
 
 
 def sendEmailTest(test_id=-1, dev_msg='nil'):
